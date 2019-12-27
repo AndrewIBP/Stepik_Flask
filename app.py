@@ -12,10 +12,15 @@ def main():
 @app.route('/from/<directions>/')
 def direction(directions):
     tour_from = {}
+    prices = []
+    nights = []
     for key in data.tours:  #выбираем туры которые соответствуют направлению
         if data.tours[key]["departure"] == directions:
-            tour_from = data.tours[key]
-    return render_template('direction.html', title=data.title, direct=data.departures[directions], direction=data.departures, tours=tour_from)
+            tour_from[key] = data.tours[key]
+            prices.append(data.tours[key]["price"])
+            nights.append(data.tours[key]["nights"])
+    return render_template('direction.html', title=data.title, dir=directions, direct=data.departures[directions],
+                           direction=data.departures, toursfrom=tour_from, price=prices, night=nights)
 
 
 @app.route('/tours/<int:ids>/')
